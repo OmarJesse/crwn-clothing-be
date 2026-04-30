@@ -9,6 +9,9 @@ class Product extends Model {
   public stock!: number;
   public imageUrl!: string;
   public categoryId!: string;
+  public fitType!: string | null;
+  public sizeChartJson!: unknown;
+  public recommendationTags!: string[] | null;
 }
 
 Product.init(
@@ -47,6 +50,20 @@ Product.init(
         model: "categories",
         key: "id",
       },
+    },
+    fitType: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    sizeChartJson: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+      defaultValue: [],
+    },
+    recommendationTags: {
+      type: DataTypes.JSONB,
+      allowNull: true,
+      defaultValue: [],
     },
   },
   {

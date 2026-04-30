@@ -50,6 +50,7 @@ const registerResolver = async (
     res.status(201).json({
       token,
       refreshToken,
+      onboardingRequired: true,
     });
   }
   catch (error) {

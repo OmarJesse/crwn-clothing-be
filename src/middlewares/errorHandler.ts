@@ -8,8 +8,9 @@ const errorHandler = (
   next: NextFunction
 ) => {
   console.error(err);
-  res.status(500).json({
-    error: 'Internal Server Error',
+  const statusCode = typeof err?.statusCode === "number" ? err.statusCode : 500;
+  res.status(statusCode).json({
+    error: statusCode === 500 ? 'Internal Server Error' : 'Bad Request',
     message: err.message || 'Something went wrong',
   });
 };

@@ -4,7 +4,8 @@
   "description": "initial commit",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run test:validation",
+    "test:validation": "ts-node --project tsconfig.json src/scripts/validate-body-profile.ts",
     "start": "npx ts-node --project tsconfig.json src/index.ts"
   },
   "repository": {

@@ -18,6 +18,20 @@ const meResolver = async (
       email: user.email,
       name: user.name,
       role: user.role,
+      heightCm: user.heightCm,
+      weightKg: user.weightKg,
+      bmi: user.bmi,
+      chestCm: user.chestCm,
+      waistCm: user.waistCm,
+      hipCm: user.hipCm,
+      inseamCm: user.inseamCm,
+      shoulderCm: user.shoulderCm,
+      preferredFit: user.preferredFit,
+      bodyShape: user.bodyShape,
+      onboardingCompletedAt: user.onboardingCompletedAt,
+      recommendationVersion: user.recommendationVersion,
+      landmarkSummary: user.landmarkSummary,
+      landmarkModel: user.landmarkModel,
     });
   } catch (error) {
     next(error);
