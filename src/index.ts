@@ -84,6 +84,7 @@ const seedDatabase = async () => {
 // Sync Sequelize models and start server
 sequelize
   .authenticate()
+  .then(() => sequelize.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'))
   .then(() => sequelize.sync({ alter: true }))
   .then(() => seedDatabase())
   .then(() => {
