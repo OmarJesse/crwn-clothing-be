@@ -1,0 +1,48 @@
+services:
+  - type: web
+    name: crwn-clothing-api
+    runtime: node
+    plan: free                    # spins down after 15 min idle; first request after idle is slow
+    region: frankfurt             # closest free region for many EU/TR thesis defenses; pick yours
+    buildCommand: npm install && npx tsc
+    startCommand: node dist/index.js
+    healthCheckPath: /
+    autoDeploy: true
+    rootDir: crwn-clothing-be
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: appOrigin
+        sync: false               # set in dashboard to the deployed Vercel URL
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_HOST
+        fromDatabase:
+          name: crwn-postgres
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: crwn-postgres
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: crwn-postgres
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: crwn-postgres
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: crwn-postgres
+          property: database
+
+databases:
+  - name: crwn-postgres
+    plan: free                    # 90-day free Postgres on Render; migrate to Neon for longer durability
+    region: frankfurt
+    databaseName: crwn
+    user: crwn
+    postgresMajorVersion: "16"

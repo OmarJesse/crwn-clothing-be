@@ -13,7 +13,7 @@ const getCategoriesResolver = async (
         {
           model: Product,
           as: "products",
-          limit: 5,
+          limit: 1000,
           required: false,
         },
       ],
