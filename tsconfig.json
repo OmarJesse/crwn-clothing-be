@@ -10,10 +10,7 @@
     "checkJs": false,
     "outDir": "./dist",
     "rootDir": "./src",
-    "baseUrl": "./src",
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "ignoreDeprecations": "6.0"
+    "resolveJsonModule": true
   },
   "include": ["src/**/*.ts", "src/types/express.d.ts"],
   "exclude": ["node_modules"]
