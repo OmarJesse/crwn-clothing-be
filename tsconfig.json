@@ -12,7 +12,8 @@
     "rootDir": "./src",
     "baseUrl": "./src",
     "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src/**/*.ts", "src/types/express.d.ts"],
   "exclude": ["node_modules"]
