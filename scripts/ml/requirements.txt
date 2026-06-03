@@ -1,0 +1,15 @@
+tensorflow>=2.15.0
+tensorflowjs>=4.18.0
+keras>=2.15.0
+datasets>=2.16.0          # Hugging Face datasets
+huggingface-hub>=0.20.0
+pycocotools>=2.0.7        # COCO Keypoints eval
+scikit-learn>=1.4.0       # classification_report, confusion_matrix
+numpy>=1.26.0
+pandas>=2.2.0
+matplotlib>=3.8.0
+requests>=2.31.0          # Trendyol fetcher
+beautifulsoup4>=4.12.0    # Optional HTML fallback
+ratelimit>=2.2.1
+kaggle>=1.6.0             # H&M dataset download
+tqdm>=4.66.0
