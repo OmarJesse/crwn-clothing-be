@@ -6,7 +6,9 @@
   "scripts": {
     "test": "npm run test:validation",
     "test:validation": "ts-node --project tsconfig.json src/scripts/validate-body-profile.ts",
-    "start": "npx ts-node --project tsconfig.json src/index.ts"
+    "start": "npx ts-node --project tsconfig.json src/index.ts",
+    "seed:dummyjson": "ts-node --project tsconfig.json scripts/seed-from-dummyjson.ts",
+    "seed:hm": "ts-node --project tsconfig.json scripts/seed-from-hm-kaggle.ts"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "@types/sequelize": "^4.28.20",
     "@typescript-eslint/eslint-plugin": "^8.32.0",
     "@typescript-eslint/parser": "^8.32.0",
+    "csv-parse": "^6.2.1",
     "eslint": "^9.26.0",
     "globals": "^16.0.0",
     "ts-node": "^10.9.2",
