@@ -8,7 +8,8 @@
     "test:validation": "ts-node --project tsconfig.json src/scripts/validate-body-profile.ts",
     "start": "npx ts-node --project tsconfig.json src/index.ts",
     "seed:dummyjson": "ts-node --project tsconfig.json scripts/seed-from-dummyjson.ts",
-    "seed:hm": "ts-node --project tsconfig.json scripts/seed-from-hm-kaggle.ts"
+    "seed:hm": "ts-node --project tsconfig.json scripts/seed-from-hm-kaggle.ts",
+    "seed:ansur": "ts-node --project tsconfig.json scripts/seed-users-from-ansur.ts"
   },
   "repository": {
     "type": "git",
