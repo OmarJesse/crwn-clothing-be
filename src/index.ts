@@ -4,6 +4,7 @@ import "./models";
 import userRoutes from "./routes/userRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 import productRoutes from "./routes/productRoutes";
+import insightsRoutes from "./routes/insightsRoutes";
 import errorHandler from "./middlewares/errorHandler";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -30,6 +31,7 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(categoryRoutes);
 app.use(productRoutes);
+app.use(insightsRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
