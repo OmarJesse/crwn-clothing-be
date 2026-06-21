@@ -142,8 +142,10 @@ const buildRowFor = (row: Row) => {
 
   return {
     id: genUuid(articleId),
-    name: row.prod_name,
-    description: row.detail_desc || `${row.product_type_name} from H&M.`,
+    // name/description map to VARCHAR(255) columns — H&M detail_desc can run
+    // longer, so truncate to stay within the column limit (Postgres 22001).
+    name: String(row.prod_name).slice(0, 255),
+    description: String(row.detail_desc || `${row.product_type_name} from H&M.`).slice(0, 255),
     price: fakePrice,
     stock: 50 + (Number(articleId) % 200),
     fitType: "regular",
