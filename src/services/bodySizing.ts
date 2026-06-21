@@ -1,4 +1,5 @@
 import Product from "../models/Product";
+import { classifyBodyShape } from "./bodyShape";
 
 type SizeChartEntry = {
   size: string;
@@ -124,35 +125,14 @@ const calculateBmi = (weightKg?: number | null, heightCm?: number | null) => {
   return Number((weightKg / (heightMeters * heightMeters)).toFixed(1));
 };
 
-const inferBodyShape = (profile: BodyProfileInput & { bmi?: number | null }) => {
-  const { bmi, waistCm, chestCm, hipCm } = profile;
-
-  if (typeof bmi !== "number") {
-    return "unknown";
-  }
-
-  if (bmi < 18.5) {
-    return "slim";
-  }
-
-  if (typeof waistCm === "number" && typeof chestCm === "number" && chestCm > waistCm * 1.12) {
-    return "athletic";
-  }
-
-  if (typeof waistCm === "number" && typeof hipCm === "number" && hipCm > waistCm * 1.12) {
-    return "curvy";
-  }
-
-  if (bmi < 25) {
-    return "balanced";
-  }
-
-  if (bmi < 30) {
-    return "full";
-  }
-
-  return "plus";
-};
+// Body shape is the literature-grounded FFIT classification (bust/waist/hip),
+// shared verbatim with the seed and the evaluation harness. See bodyShape.ts.
+const inferBodyShape = (profile: BodyProfileInput & { bmi?: number | null }) =>
+  classifyBodyShape({
+    chestCm: profile.chestCm,
+    waistCm: profile.waistCm,
+    hipCm: profile.hipCm,
+  });
 
 export const inferBodyProfile = (input: BodyProfileInput): BodyProfile => {
   const enrichedInput = enrichFromLandmarks(input);
