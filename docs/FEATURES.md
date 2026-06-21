@@ -173,7 +173,27 @@ pose-estimation measurement noise grows:
 | Accuracy | 100% | 84.8% | 71.5% | 61.1% | 53.3% | 47.2% |
 
 Artifacts regenerated to `evaluation/results/RESULTS.md` and `results.json`.
-The Keras training-pipeline stub lives in `evaluation/python/`.
+
+### TensorFlow / Keras training pipeline (`evaluation/python/`)
+
+The runtime does inference in the browser (TensorFlow.js: MoveNet + FaceMesh),
+but the models can be **trained and benchmarked in Python/Keras**. This folder
+is the training-and-validation companion to the JS metrics harness:
+
+| Script | Datasets used | What it does |
+|--------|---------------|--------------|
+| `train_measurement_head.py` | ANSUR II (synthesized to-shape; swap in the real CSV in `../../datasets/ansur2/`) | Trains the Keras MLP `(pose keypoints 17×3 + height) → 128 → 64 → 32 → 6 body measurements`; reports MAE/RMSE; emits the `tensorflowjs_converter` command to ship weights to the browser |
+| `colab_train_measurement_head.ipynb` | same | One-click Colab notebook for the above (GPU) |
+| `evaluate_movenet_on_coco.py` | **COCO Keypoints** val | OKS / PCK of the wrapped MoveNet pose detector |
+| `evaluate_palette_on_deepfashion.py` | **DeepFashion** (Hugging Face) | Per-class F1 of the palette classifier |
+| `evaluate_size_recommendation_on_hm.py` | **H&M** (Kaggle) | NDCG@k of size recommendation |
+| `trendyol_catalog_fetcher.py` | **Trendyol** (live) | Polite (1 req/s, robots-aware) real-catalog crawler |
+
+So the datasets span the whole pipeline: **ANSUR II** (anthropometry / the
+measurement head and body-shape model), **COCO** (pose accuracy), **DeepFashion**
+(palette/style), and **H&M + Trendyol** (catalog + size-recommendation
+validation). Run logs print the dataset, sample counts, and metrics; see
+[../evaluation/python/README.md](../evaluation/python/README.md).
 
 ## 8. Deployment, CI/CD & operations
 

@@ -21,8 +21,12 @@ const registerResolver = async (
       throw new Error("User already exists");
     }
 
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash the password. bcrypt is a one-way salted hash (not reversible
+    // encryption — the correct, stronger choice for credentials). Cost factor
+    // 12 ≈ 4× harder to brute-force than the previous 10; existing 10-round
+    // hashes still verify fine via bcrypt.compare.
+    const SALT_ROUNDS = 12;
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
     // Create a new user
     const newUser = await User.create({

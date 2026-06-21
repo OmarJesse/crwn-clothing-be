@@ -2,7 +2,40 @@
 
 > A focused write-up of what was added, rebuilt, or replaced during this body-aware-commerce phase of the project. For the broader architecture and end-to-end product narrative see [THESIS.md](THESIS.md).
 
-**Last updated:** 2026-05-01
+**Last updated:** 2026-06-22
+
+---
+
+## 0. Latest phase — datasets, FFIT, gender, catalog & ops (2026-06-22)
+
+A second build-out, focused on grounding the system in **real datasets**, a
+literature-backed body-shape model, and operational polish:
+
+- **Datasets brought into the repo and the pipeline.** The project now uses, and
+  documents, several real datasets end-to-end:
+  - **ANSUR II** (US Army 2012, 6,068 subjects) — committed at
+    `datasets/ansur2/`; seeded into the `users` table as realistic bodies and
+    used as gold labels for the body-shape evaluation.
+  - **H&M Personalized Fashion Recommendations** (Kaggle, 105k articles) —
+    imported into the live catalog (~517 products) and used for product gender.
+  - **COCO Keypoints, DeepFashion, Trendyol** — wired into the Python
+    benchmark scripts (pose accuracy, palette F1, real-catalog validation).
+- **TensorFlow / Keras training pipeline** (`evaluation/python/`) — a trainable
+  Keras head `(pose keypoints + height) → 6 body measurements`, plus
+  dataset-specific evaluators (COCO/DeepFashion/H&M) and a Colab notebook. Run
+  logs print the dataset, sample counts, and MAE/RMSE / F1 / NDCG metrics.
+- **FFIT body-shape model** — replaced the BMI-driven heuristic (which collapsed
+  ~49% of bodies into one class) with the literature-standard FFIT taxonomy,
+  shared across API, onboarding, and the evaluation harness. Real-data accuracy
+  is now reported (95.7% synthetic / 61.1% on noisy ANSUR, with a noise sweep).
+- **Fit Insights** — population-analytics API + dashboard over the seeded bodies.
+- **Gender** — user (male/female/unspecified) and product (men/women/unisex)
+  gender across signup, onboarding, `/me`, and a shop filter; backfilled on the
+  live DB.
+- **Performance & ops** — paginated shop grid (was rendering ~500 cards at once),
+  fixed broken H&M images, a real Stripe PaymentIntent endpoint, bcrypt cost
+  raised to 12, and the API/FE deployed on Render (datasets + evaluation + docs
+  consolidated into this repo).
 
 ---
 
