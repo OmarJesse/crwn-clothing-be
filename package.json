@@ -9,7 +9,8 @@
     "start": "npx ts-node --project tsconfig.json src/index.ts",
     "seed:dummyjson": "ts-node --project tsconfig.json scripts/seed-from-dummyjson.ts",
     "seed:hm": "ts-node --project tsconfig.json scripts/seed-from-hm-kaggle.ts",
-    "seed:ansur": "ts-node --project tsconfig.json scripts/seed-users-from-ansur.ts"
+    "seed:ansur": "ts-node --project tsconfig.json scripts/seed-users-from-ansur.ts",
+    "seed:balance": "ts-node --project tsconfig.json scripts/seed-apparel-balance.ts"
   },
   "repository": {
     "type": "git",
