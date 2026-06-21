@@ -7,6 +7,7 @@ class User extends Model {
   public email!: string;
   public password!: string;
   public role!: "admin" | "user";
+  public gender!: "male" | "female" | "unspecified" | null;
   public heightCm!: number | null;
   public weightKg!: number | null;
   public bmi!: number | null;
@@ -51,6 +52,11 @@ User.init(
       type: DataTypes.ENUM("admin", "user"),
       allowNull: false,
       defaultValue: "user",
+    },
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null,
     },
     heightCm: {
       type: DataTypes.FLOAT,

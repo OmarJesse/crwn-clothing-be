@@ -10,6 +10,10 @@ const registerResolver = async (
 ) => {
   try {
     const { name, email, password } = req.body;
+    const allowedGenders = ["male", "female", "unspecified"];
+    const gender = allowedGenders.includes(req.body?.gender)
+      ? req.body.gender
+      : null;
 
     // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
@@ -26,6 +30,7 @@ const registerResolver = async (
       email,
       password: hashedPassword,
       role: "user", // Default role
+      gender,
     });
 
     // Generate a token

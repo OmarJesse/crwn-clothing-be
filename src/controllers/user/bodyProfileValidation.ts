@@ -9,6 +9,7 @@ const createBadRequestError = (message: string) => {
 };
 
 const BODY_PROFILE_KEYS = new Set([
+  "gender",
   "heightCm",
   "weightKg",
   "chestCm",
@@ -166,6 +167,18 @@ export const parseLandmarkSummary = (summary: unknown) => {
   }
 
   return parsedSummary;
+};
+
+const GENDER_OPTIONS = new Set(["male", "female", "unspecified"]);
+
+export const parseGender = (gender: unknown, fallback: string | null = null) => {
+  if (gender === null || typeof gender === "undefined" || gender === "") {
+    return fallback;
+  }
+  if (typeof gender !== "string" || !GENDER_OPTIONS.has(gender)) {
+    throw createBadRequestError("gender must be one of male, female, unspecified.");
+  }
+  return gender;
 };
 
 export const parsePreferredFit = (preferredFit: unknown, fallback: string | null = null) => {

@@ -10,6 +10,7 @@ class Product extends Model {
   public imageUrl!: string;
   public categoryId!: string;
   public fitType!: string | null;
+  public gender!: "men" | "women" | "unisex" | null;
   public sizeChartJson!: unknown;
   public recommendationTags!: string[] | null;
 }
@@ -54,6 +55,11 @@ Product.init(
     fitType: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: "unisex",
     },
     sizeChartJson: {
       type: DataTypes.JSONB,

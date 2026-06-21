@@ -7,6 +7,7 @@ import {
   parseLandmarkModel,
   parseLandmarkSummary,
   parsePreferredFit,
+  parseGender,
 } from "./bodyProfileValidation";
 
 type AuthenticatedRequest = Request & {
@@ -37,9 +38,11 @@ const updateBodyProfileResolver = async (
       landmarkModel: parseLandmarkModel(req.body?.landmarkModel, user.landmarkModel),
     });
     const onboardingCompletedAt = user.onboardingCompletedAt ?? new Date();
+    const gender = parseGender(req.body?.gender, user.gender);
 
     await user.update({
       ...profile,
+      gender,
       landmarkSummary: profile.landmarkSummary ?? user.landmarkSummary,
       landmarkModel: profile.landmarkModel ?? user.landmarkModel,
       onboardingCompletedAt,
@@ -48,6 +51,7 @@ const updateBodyProfileResolver = async (
     res.status(200).json({
       profile: {
         id: user.id,
+        gender,
         ...profile,
         onboardingCompletedAt,
       },

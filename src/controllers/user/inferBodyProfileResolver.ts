@@ -9,6 +9,7 @@ import {
   parsePreferredFit,
   parsePreferredStyles,
   parsePreferredPalettes,
+  parseGender,
 } from "./bodyProfileValidation";
 
 type AuthenticatedRequest = Request & {
@@ -44,8 +45,11 @@ const inferBodyProfileResolver = async (
     });
     const onboardingCompletedAt = new Date();
 
+    const gender = parseGender(req.body?.gender, user.gender);
+
     await user.update({
       ...profile,
+      gender,
       landmarkSummary: profile.landmarkSummary ?? null,
       landmarkModel: profile.landmarkModel ?? null,
       preferredStyles: profile.preferredStyles ?? null,
@@ -57,6 +61,7 @@ const inferBodyProfileResolver = async (
       profile: {
         id: user.id,
         ...profile,
+        gender,
         onboardingCompletedAt,
       },
     });

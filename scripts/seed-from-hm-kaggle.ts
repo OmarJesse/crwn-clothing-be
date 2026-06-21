@@ -99,13 +99,11 @@ const guessHmCdnImage = (articleId: string): string | null => {
   // H&M's published CDN pattern (verified against several articles):
   //   https://image.hm.com/<first2>/<next3>/<rest>.jpg
   // The article_id is 10 digits with a leading zero in the CSV.
-  if (!articleId || articleId.length < 6) return null;
-  const padded = articleId.padStart(10, "0");
-  const a = padded.slice(0, 3);
-  const b = padded.slice(3, 6);
-  // Note: H&M's CDN occasionally blocks hot-linking. If images 404, swap to
-  // upload the sample images to your own CDN (Cloudflare R2 free tier works).
-  return `https://image.hm.com/assets/hm/${a}/${b}/${padded}.jpg`;
+  // H&M's CDN hot-link-protects these paths (they 302-redirect, so the card
+  // can't render them). Return null and let the front-end's Picsum/Unsplash
+  // fallback take over; run scripts/fix-product-images.ts after seeding to swap
+  // in stable, category-appropriate apparel photography.
+  return null;
 };
 
 const genUuid = (articleId: string) =>

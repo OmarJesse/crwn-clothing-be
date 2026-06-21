@@ -28,6 +28,7 @@ const meResolver = async (
       shoulderCm: user.shoulderCm,
       preferredFit: user.preferredFit,
       bodyShape: user.bodyShape,
+      gender: user.gender,
       onboardingCompletedAt: user.onboardingCompletedAt,
       recommendationVersion: user.recommendationVersion,
       landmarkSummary: user.landmarkSummary,
