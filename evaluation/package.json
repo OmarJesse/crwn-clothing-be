@@ -1,0 +1,13 @@
+{
+  "name": "crwn-evaluation",
+  "version": "1.0.0",
+  "description": "Standalone Node evaluation harness for the CRWN fit-aware pipeline. Computes Accuracy / Precision / Recall / F1 / MAE etc. against synthetic anthropometric data and a synthetic Trendyol-shape catalog.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "eval": "node run-all.js",
+    "eval:body-shape": "node body-shape-eval.js",
+    "eval:size": "node size-recommendation-eval.js",
+    "eval:palette": "node palette-eval.js"
+  }
+}
