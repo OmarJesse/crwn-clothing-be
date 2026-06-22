@@ -143,10 +143,19 @@ export const genderForHm = (
   return "unisex";
 };
 
-/** Best-effort gender from a free-text product name + tags (non-H&M items). */
+/** Best-effort gender from a free-text product name + tags (non-H&M items).
+ *  Women is checked first: DummyJSON category tags read "womens …" / "mens …",
+ *  and "mens" is a substring of "womens", so a women-first test avoids tagging
+ *  women's items as men's. Female-only garments/accessories (dress, frock,
+ *  skirt, heel, earring, …) are matched explicitly. */
 export const genderFromText = (name: string, tags: string[] = []): "men" | "women" | "unisex" => {
   const hay = `${name} ${tags.join(" ")}`.toLowerCase();
-  if (/\b(women|woman|ladies|dress|skirt|blouse|bra|leggings|female)\b/.test(hay)) return "women";
-  if (/\b(men|man|mens|male|boy)\b/.test(hay)) return "men";
+  const women =
+    /\b(womens?|woman|ladies|lady|female|girls?)\b/.test(hay) ||
+    /(dress|frock|gown|skirt|blouse|bra\b|bikini|lingerie|legging|jegging|heel|earring|necklace|handbag|clutch|camisole|bodysuit|tunic|kaftan)/.test(
+      hay
+    );
+  if (women) return "women";
+  if (/\b(mens?|man|male|boys?|gentlemen)\b/.test(hay)) return "men";
   return "unisex";
 };
