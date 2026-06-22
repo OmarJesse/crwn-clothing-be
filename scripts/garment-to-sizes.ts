@@ -117,3 +117,36 @@ export const categoryFor = (rawSlug: string): CategorySlug => {
   }
   return "accessories";
 };
+
+/**
+ * Derive product gender (men / women / unisex) as accurately as the H&M
+ * metadata allows. Priority:
+ *   1. women-only garment types (dress, skirt, bra, leggings, …) → women
+ *   2. an explicit gender word in section_name / index → women, then men
+ *      (check women first — "Womens" contains the substring "men")
+ *   3. otherwise unisex (ambiguous Divided/Sport with no gender signal)
+ */
+export const genderForHm = (
+  sectionName: string,
+  productType: string,
+  indexGroupName: string
+): "men" | "women" | "unisex" => {
+  const pt = (productType || "").toLowerCase();
+  const s = (sectionName || "").toLowerCase();
+  const idx = (indexGroupName || "").toLowerCase();
+
+  if (/\b(dress|skirt|blouse|bra|bikini|legging|jegging|tights|nursing|maternity|bodysuit)\b/.test(pt))
+    return "women";
+  if (s.includes("women") || s.includes("ladies") || s.includes("girl") || idx.includes("ladies"))
+    return "women";
+  if (s.includes("men") || s.includes("boy") || idx === "menswear") return "men";
+  return "unisex";
+};
+
+/** Best-effort gender from a free-text product name + tags (non-H&M items). */
+export const genderFromText = (name: string, tags: string[] = []): "men" | "women" | "unisex" => {
+  const hay = `${name} ${tags.join(" ")}`.toLowerCase();
+  if (/\b(women|woman|ladies|dress|skirt|blouse|bra|leggings|female)\b/.test(hay)) return "women";
+  if (/\b(men|man|mens|male|boy)\b/.test(hay)) return "men";
+  return "unisex";
+};

@@ -23,24 +23,13 @@ import sequelize from "../src/models/sequelize";
 import "../src/models";
 import Product from "../src/models/Product";
 import User from "../src/models/User";
+import { genderForHm, genderFromText } from "./garment-to-sizes";
 
 // Same namespace the H&M seeder uses to derive deterministic product ids.
 const HM_NAMESPACE = "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d"; // matches seed-from-hm-kaggle.ts
 const CSV_PATH = path.resolve(__dirname, "data", "articles.csv");
 
-const indexGroupToGender = (g: string): "men" | "women" | "unisex" => {
-  const s = (g || "").toLowerCase();
-  if (s.includes("ladies") || s.includes("women")) return "women";
-  if (s.includes("men")) return "men"; // "Menswear" (note: "Ladieswear" handled above)
-  return "unisex"; // Divided, Sport, Baby/Children, etc.
-};
-
-const heuristicGender = (name: string, tags: string[]): "men" | "women" | "unisex" => {
-  const hay = `${name} ${tags.join(" ")}`.toLowerCase();
-  if (/\b(women|woman|ladies|dress|blouse|skirt|bra|leggings|female)\b/.test(hay)) return "women";
-  if (/\b(men|man|mens|male)\b/.test(hay)) return "men";
-  return "unisex";
-};
+const heuristicGender = genderFromText;
 
 const run = async () => {
   console.log("Connecting to database…");
@@ -73,7 +62,10 @@ const run = async () => {
       parser.on("data", (row: Record<string, string>) => {
         if (row.article_id) {
           const id = uuidv5(`hm:${row.article_id}`, HM_NAMESPACE);
-          hmGenderById.set(id, indexGroupToGender(row.index_group_name));
+          hmGenderById.set(
+            id,
+            genderForHm(row.section_name, row.product_type_name, row.index_group_name)
+          );
         }
       });
       parser.on("end", () => resolve());

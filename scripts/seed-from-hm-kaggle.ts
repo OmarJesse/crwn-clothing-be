@@ -49,6 +49,7 @@ import {
   sizeChartFor,
   categoryFor,
   CATEGORY_IDS,
+  genderForHm,
 } from "./garment-to-sizes";
 
 const NAMESPACE = "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d";
@@ -147,6 +148,7 @@ const buildRowFor = (row: Row) => {
     price: fakePrice,
     stock: 50 + (Number(articleId) % 200),
     fitType: "regular",
+    gender: genderForHm(row.section_name, row.product_type_name, row.index_group_name),
     recommendationTags: tags,
     sizeChartJson: sizeChart,
     imageUrl: guessHmCdnImage(articleId),
